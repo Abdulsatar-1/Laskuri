@@ -1,0 +1,76 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-battery-status": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-media-capture": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-contacts": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-media": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "brade.laskuri"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "brade.laskuri"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "brade.laskuri"
+        }
+    }
+}

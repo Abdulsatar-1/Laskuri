@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+	
+ 	<meta http-equiv="Content-Security-Policy" content="
+			default-src 'self' 'unsafe-inline' ws://192.168.100.28:3000 http://code.jquery.com https://code.jquery.com  https://ssl.gstatic.com gap: data: blob: filesystem: ;" />
+	
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<script src="https://code.jquery.com/jquery-2.1.4.js" integrity="sha256-siFczlgw4jULnUICcdm9gjQPZkw/YPDqhQ9+nAOScE4=" crossorigin="anonymous" ></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<title>PlusMiinus</title>
+	<style>
+	
+	</style>
+</head>
+<body>		
+	<div data-role="page" id="etusivu">
+		<div data-role="header">			
+			<h1>+Plus-Miinus</h1>
+			<audio id="soundPlayer"></audio>
+		</div>         
+		<div role="main" class="ui-content ui-body-a">	
+			<label id="tulos"></label>
+			<div class="ui-grid-c">
+				<!-- 1. rivi -->
+				<button class="ui-block-a nappi" id="nappi_7">7</button>
+				<button class="ui-block-b nappi" id="nappi_8">8</button>
+				<button class="ui-block-c nappi" id="nappi_9">9</button>
+				<button class="ui-block-d nappi" id="nappi_c">C</button>
+				<!-- 2. rivi -->
+				<button class="ui-block-a nappi" id="nappi_4">4</button>
+				<button class="ui-block-b nappi" id="nappi_5">5</button>
+				<button class="ui-block-c nappi" id="nappi_6">6</button>
+				<button class="ui-block-d nappi" id="nappi_plus">+</button>
+				<!-- 3. rivi -->
+				<button class="ui-block-a nappi" id="nappi_1">1</button>
+				<button class="ui-block-b nappi" id="nappi_2">2</button>
+				<button class="ui-block-c nappi" id="nappi_3">3</button>
+				<button class="ui-block-d nappi" id="nappi_miinus">-</button>
+				<!-- 4. rivi -->
+				<button class="ui-block-a nappi" id="nappi_0">0</button>
+				<button class="ui-block-b nappi" id="nappi_pilkku">,</button>
+				<label class="ui-block-c"></label>
+				<button class="ui-block-d nappi" id="nappi_laske">=</button>				
+			</div>			
+		</div>
+		<div data-role="footer">
+			<h1>Demolaskuri</h1>
+		</div>
+	</div>	
+	<script>
+		var sounds = ["click.mp3","cash.mp3","swoosh.mp3"];
+		function playSound(i){
+			$("#soundPlayer").attr("src","sounds/" + sounds[i]);
+			$("#soundPlayer")[0].play();	
+		}
+		$(document).one("pagebeforecreate", function () {					
+				$("#tulos").text("0.00");
+				$.event.special.tap.tapholdThreshold = 10; //millisekuntia, eli 1/100 sekuntia nappi pohjassa laukaisee tapahtuman.
+		});				
+		$(document).on("pagecreate", "#etusivu", function() {
+			$("#tulos").css({
+				"height":"60px",
+				"font-size":"40px",
+				"text-align":"right",	
+				"padding":"0px 10px 0px 0px",	//top, right, bottom, left		
+			});
+			$(".nappi").css({
+				"height":"60px",
+				"font-size":"40px"
+			});			
+		});
+		//Laskuri alkaa **********************************************************************************************************
+		var edellOper;
+		var edellLuku;
+		var pilkkuKaytetty; //ei kahta pilkkua peräkkäin
+		$(".nappi").on("taphold", function() {		//myös pelkkä "tap" toimii. "tap":n vasteaikaa ei voi säätää. Älä käytä "click"	
+			if($("#tulos").text()=="0.00"){ //jos tulos näyttää 0,00
+				$("#tulos").text("");		//tyhjennetään tulos
+				edellOper="";
+				edellLuku=0;
+				pilkkuKaytetty=false;
+			}
+			var nappi=this.id.replace("nappi_",""); //tutkitaan mitä nappia on painettu ja siivotaan siitä alku pois
+			if(nappi=="c"){ //nollaus
+				pilkkuKaytetty=false;
+				edellOper="";
+				edellLuku=0;
+				$("#tulos").text("0.00");
+				$("#nappi_miinus").attr("disabled", false);
+				$("#nappi_plus").attr("disabled", false);
+				playSound(2);			
+			}else if(nappi=="plus"){
+				pilkkuKaytetty=false;
+				edellOper="+";
+				edellLuku=$("#tulos").text();
+				$("#tulos").text("");
+				$("#nappi_miinus").attr("disabled", true);
+				$("#nappi_plus").attr("disabled", true);
+				playSound(0);
+			}else if(nappi=="miinus"){
+				pilkkuKaytetty=false;
+				edellOper="-";
+				edellLuku=$("#tulos").text();
+				$("#tulos").text("");
+				$("#nappi_miinus").attr("disabled", true);
+				$("#nappi_plus").attr("disabled", true);	
+				playSound(0);
+			}else if(nappi=="pilkku"){
+				if(pilkkuKaytetty==false){
+					$("#tulos").append("."); 
+				}				
+				pilkkuKaytetty=true;
+				playSound(0);
+			}else if(nappi=="laske"){				
+				if(edellOper=="+"){
+					$("#tulos").text((edellLuku*1.0)+($("#tulos").text()*1.0));
+				}else if(edellOper=="-"){
+					$("#tulos").text(edellLuku-$("#tulos").text());
+				}	
+				$("#nappi_miinus").attr("disabled", false);
+				$("#nappi_plus").attr("disabled", false);	
+				playSound(1);			
+			}else{				
+				$("#tulos").append(nappi);	
+				playSound(0);
+			}			
+		});					
+		
+	</script>
+</body>
+</html>
